@@ -15,6 +15,7 @@
      </param-value>
 	</context-param>
 
+    <!-- data base -->
 	<resource-ref>
 		<description>DataSource FinaceiroBD</description>
 		<res-ref-name>FinanceiroDB</res-ref-name>
@@ -22,6 +23,15 @@
 		<res-auth>Container</res-auth>
 	</resource-ref>
 
+    <!-- email -->
+    <resource-ref>
+      <description>Mail Session</description>
+      <res-ref-name>mail</res-ref-name>
+      <!-- need to change pom.xml artifactId mail, field scope to provided -->
+      <res-type>javax.mail</res-type>
+      <res-auth>Container</res-auth>
+    </resource-ref>
+    
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>

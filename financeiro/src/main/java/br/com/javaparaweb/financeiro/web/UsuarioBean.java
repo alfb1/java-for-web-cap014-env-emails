@@ -11,6 +11,8 @@ import br.com.javaparaweb.financeiro.usuario.UsuarioRN;
 import br.com.javaparaweb.financeiro.conta.Conta;
 import br.com.javaparaweb.financeiro.conta.ContaRN;
 
+import br.com.javaparaweb.financeiro.util.RNException;
+
 @ManagedBean(name = "usuarioBean")
 @RequestScoped
 public class UsuarioBean {
@@ -71,6 +73,16 @@ public class UsuarioBean {
 			contaRN.salvar(this.conta);
 		}
 		
+		//chatp 14 emails :
+		if ( this.destinoSalvar.equals("usuario_sucesso") ) 
+		{
+		    try {
+		    	usuarioRN.enviarEmailPosCadastramento(this.usuario);
+		    }catch(RNException e) {
+		    	context.addMessage(null, new FacesMessage( e.getMessage() ));
+		    	return null;
+		    }
+		}
 		//befor in chap 4
 		//return "usuario_sucesso";
 		//now :

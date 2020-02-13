@@ -1,9 +1,16 @@
 package br.com.javaparaweb.financeiro.usuario;
 
 import java.util.List;
+import java.util.Locale;
 
 import br.com.javaparaweb.financeiro.categoria.CategoriaRN;
 import br.com.javaparaweb.financeiro.util.DAOFactory;
+import br.com.javaparaweb.financeiro.util.RNException;
+import br.com.javaparaweb.financeiro.util.UtilException;
+import br.com.javaparaweb.financeiro.web.util.EmailUtil;
+import br.com.javaparaweb.financeiro.web.util.MensagemUtil;
+
+
 
 public class UsuarioRN {
 	private UsuarioDAO usuarioDAO;
@@ -44,5 +51,23 @@ public class UsuarioRN {
 
 	public List<Usuario> listar() {
 		return this.usuarioDAO.listar();
+	}
+	
+	//chapt 14
+	
+	public void enviarEmailPosCadastramento(Usuario usuario) throws RNException{
+		//config user language
+		String[] info = usuario.getIdioma().split("_");
+		Locale locale = new Locale(info[0], info[1]);
+		
+		String titulo = MensagemUtil.getMensagem(locale, "email_titulo");
+		String mensagem = MensagemUtil.getMensagem(locale, "email_mensagem", usuario.getNome(), usuario.getLogin(), usuario.getSenha());
+		
+		try {
+			EmailUtil emailUtil = new EmailUtil();
+			emailUtil.enviarEmail(null, usuario.getEmail(), titulo, mensagem);
+		}catch(UtilException e) {
+			throw new RNException(e);
+		}
 	}
 }
